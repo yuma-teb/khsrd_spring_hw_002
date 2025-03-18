@@ -2,18 +2,21 @@ package com.practice.springhomework002.service.student;
 
 import com.practice.springhomework002.model.entity.Student;
 import com.practice.springhomework002.model.request.StudentRequest;
+import com.practice.springhomework002.repository.IStudentCourseRepository;
 import com.practice.springhomework002.repository.IStudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class StudentServiceImplementation implements IStudentService{
-private final IStudentRepository studentRepository;
+public class StudentServiceImplementation implements IStudentService {
+    private final IStudentRepository studentRepository;
+    private final IStudentCourseRepository studentCourseRepository;
 
     public StudentServiceImplementation(
-            IStudentRepository studentRepository) {
+            IStudentRepository studentRepository, IStudentCourseRepository studentCourseRepository) {
         this.studentRepository = studentRepository;
+        this.studentCourseRepository = studentCourseRepository;
     }
 
     @Override
@@ -29,19 +32,32 @@ private final IStudentRepository studentRepository;
 
     @Override
     public Student saveStudent(StudentRequest request) {
-        return studentRepository.saveStudent(request);
+        Student student = studentRepository.saveStudent(request);
+        for(Integer courseId: request.getCourseId()) {
+            studentCourseRepository.saveStudentCourse(student.getStudentId(), courseId);
+        }
+
+        return getStudentById(student.getStudentId());
     }
 
     @Override
     public Student updateStudentById(StudentRequest request, Integer studentId) {
-        return studentRepository.updateStudentById(request, studentId);
+        Student student = studentRepository.updateStudentById(request, studentId);
+
+        studentCourseRepository.deleteStudentCourseByStudentId(studentId);
+
+        for(Integer courseId: request.getCourseId()) {
+            studentCourseRepository.saveStudentCourse(studentId, courseId);
+        }
+
+        return getStudentById(student.getStudentId());
     }
 
     @Override
     public Boolean deleteStudentById(Integer studentId) {
         Student student = studentRepository.getStudentById(studentId);
 
-        if(student == null) {
+        if (student == null) {
             return false;
         }
 

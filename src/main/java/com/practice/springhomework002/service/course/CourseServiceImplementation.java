@@ -22,6 +22,7 @@ public class CourseServiceImplementation implements ICourseService {
     }
 
     public Course getCourseById(Integer courseId) {
+        System.out.println("cou8rsesee " + courseId);
         return courseRepository.getCourseById(courseId);
     }
 

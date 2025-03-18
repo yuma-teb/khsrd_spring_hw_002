@@ -14,5 +14,5 @@ public interface IInstructorService {
 
     Instructor updateInstructorById(InstructorRequest request, Integer instructorId);
 
-    void deleteInstructorById(Integer instructorId);
+    Boolean deleteInstructorById(Integer instructorId);
 }

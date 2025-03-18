@@ -33,14 +33,14 @@ public class CourseController {
     }
 
     @GetMapping("/{course-id}")
-    public ResponseEntity<ApiResponse<Course>> getCourseById(Integer courseId) {
+    public ResponseEntity<ApiResponse<Course>> getCourseById(@PathVariable("course-id") Integer courseId) {
         Course course = courseService.getCourseById(courseId);
 
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "success", course));
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Course>> saveCourse(CourseRequest request) {
+    public ResponseEntity<ApiResponse<Course>> saveCourse(@RequestBody CourseRequest request) {
         Course course = courseService.saveCourse(request);
 
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "created successfully", course));

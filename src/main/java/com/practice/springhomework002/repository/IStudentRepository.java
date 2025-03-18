@@ -1,9 +1,6 @@
 package com.practice.springhomework002.repository;
 
-
 import com.practice.springhomework002.model.entity.Student;
-import com.practice.springhomework002.model.entity.Instructor;
-import com.practice.springhomework002.model.request.InstructorRequest;
 import com.practice.springhomework002.model.request.StudentRequest;
 import org.apache.ibatis.annotations.*;
 
@@ -15,10 +12,11 @@ public interface IStudentRepository {
     @Results(id = "studentMapper", value = {
             @Result(property = "studentId", column = "student_id"),
             @Result(property = "studentName", column = "student_name"),
-            @Result(property = "phoneNumber", column = "phone_number")
+            @Result(property = "phoneNumber", column = "phone_number"),
+            @Result(property = "courses", column = "student_id", many = @Many(select = "com.practice.springhomework002.repository.IStudentCourseRepository.getCourseByStudentId"))
     })
     @Select("""
-                SELECT * FROM students OFFSET #{offset} LIMIT #{limit};
+                SELECT * FROM students ORDER BY student_id OFFSET #{offset} LIMIT #{limit};
             """)
     List<Student> getAllStudents(int offset, int limit);
 
@@ -45,7 +43,7 @@ public interface IStudentRepository {
                 UPDATE students
                 SET 
                 student_name = #{request.studentName},
-                email = #{request.email}
+                email = #{request.email},
                 phone_number = #{request.phoneNumber}
                 WHERE student_id = #{studentId}
                 RETURNING *

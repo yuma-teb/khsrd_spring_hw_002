@@ -3,14 +3,14 @@ package com.practice.springhomework002.controller;
 import com.practice.springhomework002.dto.ApiResponse;
 import com.practice.springhomework002.model.entity.Student;
 import com.practice.springhomework002.model.request.StudentRequest;
+import com.practice.springhomework002.repository.IStudentCourseRepository;
 import com.practice.springhomework002.service.student.IStudentService;
-import org.apache.coyote.Response;
-import org.springframework.http.HttpEntity;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Iterator;
+
 import java.util.List;
 
 @RestController
@@ -20,6 +20,7 @@ public class StudentController {
 
     public StudentController(IStudentService studentService) {
         this.studentService = studentService;
+
     }
 
     @GetMapping
@@ -41,7 +42,7 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Student>> saveStudent(StudentRequest request) {
+    public ResponseEntity<ApiResponse<Student>> saveStudent(@RequestBody StudentRequest request) {
         Student student = studentService.saveStudent(request);
 
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "created success", student));
@@ -59,6 +60,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{student-id}")
+
     public ResponseEntity<ApiResponse<?>> deleteStudentById(@PathVariable("student-id") Integer studentId) {
         Boolean isDeleted = studentService.deleteStudentById(studentId);
 

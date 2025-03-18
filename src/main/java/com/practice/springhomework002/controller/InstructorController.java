@@ -60,8 +60,16 @@ public class InstructorController {
     }
 
     @DeleteMapping("/{instructor-id}")
-    public ResponseEntity<ApiResponse<Instructor>> deleteInstructorById(@PathVariable("instructor-id") Integer instructorId) {
-        instructorService.deleteInstructorById(instructorId);
+    public ResponseEntity<ApiResponse<?>> deleteInstructorById(@PathVariable("instructor-id") Integer instructorId) {
+        Boolean isDeleted =  instructorService.deleteInstructorById(instructorId);
+        
+        if(!isDeleted) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>()
+                    .builder()
+                    .message("No instructor found with the id")
+                    .payload(null)
+                    .build());
+        }
 
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Instructor has been deleted", null));
     }

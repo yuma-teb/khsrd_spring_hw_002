@@ -45,7 +45,14 @@ public class InstructorServiceImplementation implements IInstructorService {
     }
 
     @Override
-    public void deleteInstructorById(Integer id) {
-        instructorRepository.deleteInstructorById(id);
+    public Boolean deleteInstructorById(Integer instructorId) {
+        Instructor instructor = instructorRepository.getInstructorById(instructorId);
+
+        if(instructor == null)  {
+            return false;
+        }
+
+        instructorRepository.deleteInstructorById(instructorId);
+        return true;
     }
 }
