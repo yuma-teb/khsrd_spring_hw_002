@@ -2,16 +2,17 @@ package com.practice.springhomework002.repository;
 
 import com.practice.springhomework002.model.entity.Course;
 import com.practice.springhomework002.model.request.CourseRequest;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
 public interface ICourseRepository {
-
+    @Results(id = "courseMapper", value = {
+            @Result(property = "courseId", column = "course_id"),
+            @Result(property = "courseName", column = "course_name"),
+            @Result(property = "instructor", column = "instructor_id", one = @One(select = "com.practice.springhomework002.repository.IInstructorRepository.getInstructorById"))
+    })
     @Select("""
             SELECT * FROM courses OFFSET #{offset} LIMIT #{limit}
             """)

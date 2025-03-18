@@ -45,7 +45,7 @@ public interface IStudentRepository {
                 UPDATE students
                 SET 
                 student_name = #{request.studentName},
-                email = #{request.email},
+                email = #{request.email}
                 phone_number = #{request.phoneNumber}
                 WHERE student_id = #{studentId}
                 RETURNING *

@@ -27,7 +27,7 @@ public class CourseServiceImplementation implements ICourseService {
 
     @Override
     public Course saveCourse(CourseRequest request) {
-        return null;
+        return courseRepository.saveCourse(request);
     }
 
     @Override
@@ -41,6 +41,7 @@ public class CourseServiceImplementation implements ICourseService {
         return courseRepository.updateCourseById(request, courseId);
     }
 
+    @Override
     public Boolean deleteCourseById(Integer courseId) {
         Course course = courseRepository.getCourseById(courseId);
         if(course == null) {
