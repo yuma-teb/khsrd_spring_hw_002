@@ -44,4 +44,10 @@ public interface IInstructorRepository {
                 
             """)
     Instructor updateInstructorById(@Param("request") InstructorRequest request, int instructorId);
+
+    @Delete("""
+        DELETE FROM instructors
+        WHERE instructor_id = #{instructorId}
+    """)
+    void deleteInstructorById(Integer instructorId);
 }

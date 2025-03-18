@@ -1,4 +1,4 @@
-package com.practice.springhomework002.model;
+package com.practice.springhomework002.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

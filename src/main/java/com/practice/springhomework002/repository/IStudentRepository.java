@@ -1,11 +1,11 @@
 package com.practice.springhomework002.repository;
 
 
-import com.practice.springhomework002.model.Student;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.practice.springhomework002.model.entity.Student;
+import com.practice.springhomework002.model.entity.Instructor;
+import com.practice.springhomework002.model.request.InstructorRequest;
+import com.practice.springhomework002.model.request.StudentRequest;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -21,4 +21,41 @@ public interface IStudentRepository {
                 SELECT * FROM students OFFSET #{offset} LIMIT #{limit};
             """)
     List<Student> getAllStudents(int offset, int limit);
+
+    @ResultMap("studentMapper")
+    @Select("""
+            SELECT * FROM students
+            WHERE student_id = #{studentId}
+            """)
+    Student getStudentById(Integer studentId);
+
+    @ResultMap("studentMapper")
+    @Select("""
+                INSERT INTO students VALUES (
+                    default,
+                    #{request.studentName},
+                    #{request.email},
+                    #{request.phoneNumber}
+                ) RETURNING *
+            """)
+    Student saveStudent(@Param("request") StudentRequest request);
+
+    @ResultMap("studentMapper")
+    @Select("""
+                UPDATE students
+                SET 
+                student_name = #{request.studentName},
+                email = #{request.email}
+                phone_number = #{request.phoneNumber}
+                WHERE student_id = #{studentId}
+                RETURNING *
+                
+            """)
+    Student updateStudentById(@Param("request") StudentRequest request, Integer studentId);
+
+    @Delete("""
+        DELETE FROM students
+        WHERE student_id = #{studentId}
+    """)
+    void deleteStudentById(Integer studentId);
 }

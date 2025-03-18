@@ -58,4 +58,11 @@ public class InstructorController {
         }
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Instructor has been updated!", instructor));
     }
+
+    @DeleteMapping("/{instructor-id}")
+    public ResponseEntity<ApiResponse<Instructor>> deleteInstructorById(@PathVariable("instructor-id") Integer instructorId) {
+        instructorService.deleteInstructorById(instructorId);
+
+        return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "Instructor has been deleted", null));
+    }
 }

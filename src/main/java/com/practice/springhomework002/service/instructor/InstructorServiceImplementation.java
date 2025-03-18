@@ -44,4 +44,8 @@ public class InstructorServiceImplementation implements IInstructorService {
         return instructorRepository.updateInstructorById(request, instructorId);
     }
 
+    @Override
+    public void deleteInstructorById(Integer id) {
+        instructorRepository.deleteInstructorById(id);
+    }
 }
