@@ -22,7 +22,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Student>>> getAllUsers(@RequestParam int page, @RequestParam int size) {
+    public ResponseEntity<ApiResponse<List<Student>>> getAllUsers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int size) {
         List<Student> students = studentService.getAllStudents(page, size);
 
         return ResponseEntity.ok(new ApiResponse<>(HttpStatus.OK, "success", students));
